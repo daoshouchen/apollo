@@ -1,7 +1,6 @@
 package com.ctrip.framework.apollo.spring.util;
 
 import java.util.Map;
-import java.util.Objects;
 
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -26,7 +25,7 @@ public class BeanRegistrationUtil {
 
     for (String candidate : candidates) {
       BeanDefinition beanDefinition = registry.getBeanDefinition(candidate);
-      if (Objects.equals(beanDefinition.getBeanClassName(), beanClass.getName())) {
+      if (beanDefinition.getBeanClassName()!=null && beanDefinition.getBeanClassName().equals(beanClass.getName())) {
         return false;
       }
     }

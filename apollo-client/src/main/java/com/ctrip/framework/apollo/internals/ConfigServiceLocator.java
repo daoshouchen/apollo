@@ -46,7 +46,7 @@ public class ConfigServiceLocator {
    */
   public ConfigServiceLocator() {
     List<ServiceDTO> initial = Lists.newArrayList();
-    m_configServices = new AtomicReference<>(initial);
+    m_configServices = new AtomicReference(initial);
     m_responseType = new TypeToken<List<ServiceDTO>>() {
     }.getType();
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);

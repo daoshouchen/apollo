@@ -42,7 +42,7 @@ public abstract class AbstractConfigFile implements ConfigFile, RepositoryChange
   public AbstractConfigFile(String namespace, ConfigRepository configRepository) {
     m_configRepository = configRepository;
     m_namespace = namespace;
-    m_configProperties = new AtomicReference<>();
+    m_configProperties = new AtomicReference();
     initialize();
   }
 

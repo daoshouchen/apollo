@@ -41,7 +41,7 @@ public class ApolloJsonValueProcessor extends ApolloProcessor implements BeanFac
   }
 
   @Override
-  protected void processField(Object bean, String beanName, Field field) {
+  protected void processField(Object bean, String beanName, Field field) throws Throwable {
     ApolloJsonValue apolloJsonValue = AnnotationUtils.getAnnotation(field, ApolloJsonValue.class);
     if (apolloJsonValue == null) {
       return;
@@ -72,7 +72,7 @@ public class ApolloJsonValueProcessor extends ApolloProcessor implements BeanFac
   }
 
   @Override
-  protected void processMethod(Object bean, String beanName, Method method) {
+  protected void processMethod(Object bean, String beanName, Method method) throws Throwable {
     ApolloJsonValue apolloJsonValue = AnnotationUtils.getAnnotation(method, ApolloJsonValue.class);
     if (apolloJsonValue == null) {
       return;
@@ -108,7 +108,7 @@ public class ApolloJsonValueProcessor extends ApolloProcessor implements BeanFac
     }
   }
 
-  private Object parseJsonValue(String json, Type targetType) {
+  private Object parseJsonValue(String json, Type targetType) throws Throwable {
     try {
       return gson.fromJson(json, targetType);
     } catch (Throwable ex) {

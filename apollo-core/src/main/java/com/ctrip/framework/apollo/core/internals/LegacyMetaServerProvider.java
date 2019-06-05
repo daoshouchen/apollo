@@ -15,7 +15,7 @@ public class LegacyMetaServerProvider implements MetaServerProvider {
 
   // make it as lowest as possible, yet not the lowest
   public static final int ORDER = MetaServerProvider.LOWEST_PRECEDENCE - 1;
-  private static final Map<Env, String> domains = new HashMap<>();
+  private static final Map<Env, String> domains = new HashMap();
 
   public LegacyMetaServerProvider() {
     initialize();

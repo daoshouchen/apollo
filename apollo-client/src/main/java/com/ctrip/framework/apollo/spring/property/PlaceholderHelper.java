@@ -69,7 +69,7 @@ public class PlaceholderHelper {
       return placeholderKeys;
     }
 
-    Stack<String> stack = new Stack<>();
+    Stack<String> stack = new Stack();
     stack.push(propertyString);
 
     while (!stack.isEmpty()) {

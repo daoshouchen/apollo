@@ -26,7 +26,7 @@ public class SpringValue {
   private boolean isJson;
 
   public SpringValue(String key, String placeholder, Object bean, String beanName, Field field, boolean isJson) {
-    this.beanRef = new WeakReference<>(bean);
+    this.beanRef = new WeakReference(bean);
     this.beanName = beanName;
     this.field = field;
     this.key = key;
@@ -39,7 +39,7 @@ public class SpringValue {
   }
 
   public SpringValue(String key, String placeholder, Object bean, String beanName, Method method, boolean isJson) {
-    this.beanRef = new WeakReference<>(bean);
+    this.beanRef = new WeakReference(bean);
     this.beanName = beanName;
     this.methodParameter = new MethodParameter(method, 0);
     this.key = key;

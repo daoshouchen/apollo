@@ -30,7 +30,7 @@ public abstract class AbstractConfigRepository implements ConfigRepository {
     return false;
   }
 
-  protected abstract void sync();
+  protected abstract void sync() throws Throwable;
 
   @Override
   public void addChangeListener(RepositoryChangeListener listener) {

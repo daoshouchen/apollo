@@ -1,5 +1,6 @@
 package com.ctrip.framework.apollo.internals;
 
+import com.ctrip.framework.apollo.core.utils.StringUtils;
 import com.ctrip.framework.apollo.enums.ConfigSourceType;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +49,7 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
     m_namespace = namespace;
     m_resourceProperties = loadFromResource(m_namespace);
     m_configRepository = configRepository;
-    m_configProperties = new AtomicReference<>();
+    m_configProperties = new AtomicReference();
     m_warnLogRateLimiter = RateLimiter.create(0.017); // 1 warning log output per minute
     initialize();
   }
@@ -115,7 +116,7 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
 
   private Set<String> stringPropertyNames(Properties properties) {
     //jdk9以下版本Properties#enumerateStringProperties方法存在性能问题，keys() + get(k) 重复迭代, jdk9之后改为entrySet遍历.
-    Map<String, String> h = new HashMap<>();
+    Map<String, String> h = new HashMap();
     for (Map.Entry<Object, Object> e : properties.entrySet()) {
       Object k = e.getKey();
       Object v = e.getValue();
@@ -159,7 +160,7 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
         calcPropertyChanges(m_namespace, m_configProperties.get(), newConfigProperties);
 
     ImmutableMap.Builder<String, ConfigChange> actualChanges =
-        new ImmutableMap.Builder<>();
+        new ImmutableMap.Builder();
 
     /** === Double check since DefaultConfig has multiple config sources ==== **/
 
@@ -177,7 +178,7 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
       change.setNewValue(this.getProperty(change.getPropertyName(), change.getNewValue()));
       switch (change.getChangeType()) {
         case ADDED:
-          if (Objects.equals(change.getOldValue(), change.getNewValue())) {
+          if (StringUtils.equals(change.getOldValue(),change.getNewValue())) {
             break;
           }
           if (change.getOldValue() != null) {
@@ -186,12 +187,12 @@ public class DefaultConfig extends AbstractConfig implements RepositoryChangeLis
           actualChanges.put(change.getPropertyName(), change);
           break;
         case MODIFIED:
-          if (!Objects.equals(change.getOldValue(), change.getNewValue())) {
+          if (!StringUtils.equals(change.getOldValue(), change.getNewValue())) {
             actualChanges.put(change.getPropertyName(), change);
           }
           break;
         case DELETED:
-          if (Objects.equals(change.getOldValue(), change.getNewValue())) {
+          if (StringUtils.equals(change.getOldValue(),change.getNewValue())) {
             break;
           }
           if (change.getNewValue() != null) {

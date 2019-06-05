@@ -141,7 +141,11 @@ public class RemoteConfigRepositoryTest {
 
     when(someResponse.getBody()).thenReturn(newApolloConfig);
 
-    remoteConfigRepository.sync();
+    try {
+      remoteConfigRepository.sync();
+    } catch (Throwable throwable) {
+      throwable.printStackTrace();
+    }
 
     verify(someListener, times(1)).onRepositoryChange(eq(someNamespace), captor.capture());
 

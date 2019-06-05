@@ -23,7 +23,7 @@ public class ConfigPropertySourcesProcessor extends PropertySourcesProcessor
 
   @Override
   public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
-    Map<String, Object> propertySourcesPlaceholderPropertyValues = new HashMap<>();
+    Map<String, Object> propertySourcesPlaceholderPropertyValues = new HashMap();
     // to make sure the default PropertySourcesPlaceholderConfigurer's priority is higher than PropertyPlaceholderConfigurer
     propertySourcesPlaceholderPropertyValues.put("order", 0);
 

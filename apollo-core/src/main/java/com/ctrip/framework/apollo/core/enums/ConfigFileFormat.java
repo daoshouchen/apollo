@@ -22,18 +22,22 @@ public enum ConfigFileFormat {
     if (StringUtils.isEmpty(value)) {
       throw new IllegalArgumentException("value can not be empty");
     }
-    switch (value) {
-      case "properties":
-        return Properties;
-      case "xml":
-        return XML;
-      case "json":
-        return JSON;
-      case "yml":
-        return YML;
-      case "yaml":
-        return YAML;
-    }
+    if("properties".equals(value.toLowerCase())){
+      return Properties;
+    } 
+	if("xml".equals(value.toLowerCase())){
+      return XML;
+    } 
+	if("json".equals(value.toLowerCase())){
+      return JSON;
+    } 
+	if("yml".equals(value.toLowerCase())){
+      return YML;
+    } 
+	if("yaml".equals(value.toLowerCase())){
+      return YAML;
+    } 
+
     throw new IllegalArgumentException(value + " can not map enum");
   }
 

@@ -60,7 +60,11 @@ public class MetaDomainConsts {
     String metaServerAddress = getMetaServerAddress(env);
     // if there is more than one address, need to select one
     if (metaServerAddress.contains(",")) {
-      return selectMetaServerAddress(metaServerAddress);
+      try {
+        return selectMetaServerAddress(metaServerAddress);
+      } catch (Throwable throwable) {
+        throwable.printStackTrace();
+      }
     }
     return metaServerAddress;
   }
@@ -116,13 +120,16 @@ public class MetaDomainConsts {
       @Override
       public int compare(MetaServerProvider o1, MetaServerProvider o2) {
         // the smaller order has higher priority
-        return Integer.compare(o1.getOrder(), o2.getOrder());
+        return compareInt(o1.getOrder(), o2.getOrder());
       }
     });
 
     return metaServerProviders;
   }
 
+  public static int compareInt(int x, int y) {
+    return (x < y) ? -1 : ((x == y) ? 0 : 1);
+  }
   /**
    * Select one available meta server from the comma separated meta server addresses, e.g.
    * http://1.2.3.4:8080,http://2.3.4.5:8080
@@ -132,7 +139,7 @@ public class MetaDomainConsts {
    * In production environment, we still suggest using one single domain like http://config.xxx.com(backed by software
    * load balancers like nginx) instead of multiple ip addresses
    */
-  private static String selectMetaServerAddress(String metaServerAddresses) {
+  private static String selectMetaServerAddress(String metaServerAddresses) throws Throwable {
     String metaAddressSelected = selectedMetaServerAddressCache.get(metaServerAddresses);
     if (metaAddressSelected == null) {
       // initialize
@@ -146,7 +153,7 @@ public class MetaDomainConsts {
     return metaAddressSelected;
   }
 
-  private static void updateMetaServerAddresses(String metaServerAddresses) {
+  private static void updateMetaServerAddresses(String metaServerAddresses) throws Throwable {
     logger.debug("Selecting meta server address for: {}", metaServerAddresses);
 
     Transaction transaction = Tracer.newTransaction("Apollo.MetaService", "refreshMetaServerAddress");

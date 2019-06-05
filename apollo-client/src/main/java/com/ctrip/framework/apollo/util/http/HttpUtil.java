@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 
 /**
  * @author Jason Song(song_s@ctrip.com)
@@ -97,7 +97,7 @@ public class HttpUtil {
       String response;
 
       try {
-        isr = new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8);
+        isr = new InputStreamReader(conn.getInputStream(), Charset.forName("UTF-8"));
         response = CharStreams.toString(isr);
       } catch (IOException ex) {
         /**
@@ -108,7 +108,7 @@ public class HttpUtil {
         InputStream errorStream = conn.getErrorStream();
 
         if (errorStream != null) {
-          esr = new InputStreamReader(errorStream, StandardCharsets.UTF_8);
+          esr = new InputStreamReader(errorStream, Charset.forName("UTF-8"));
           try {
             CharStreams.toString(esr);
           } catch (IOException ioe) {
@@ -126,11 +126,11 @@ public class HttpUtil {
       }
 
       if (statusCode == 200) {
-        return new HttpResponse<>(statusCode, serializeFunction.apply(response));
+        return new HttpResponse(statusCode, serializeFunction.apply(response));
       }
 
       if (statusCode == 304) {
-        return new HttpResponse<>(statusCode, null);
+        return new HttpResponse(statusCode, null);
       }
     } catch (ApolloConfigStatusCodeException ex) {
       throw ex;

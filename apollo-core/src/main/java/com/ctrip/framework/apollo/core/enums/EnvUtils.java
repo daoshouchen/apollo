@@ -8,25 +8,27 @@ public final class EnvUtils {
     if (StringUtils.isBlank(envName)) {
       return Env.UNKNOWN;
     }
-    switch (envName.trim().toUpperCase()) {
-      case "LPT":
-        return Env.LPT;
-      case "FAT":
-      case "FWS":
-        return Env.FAT;
-      case "UAT":
-        return Env.UAT;
-      case "PRO":
-      case "PROD": //just in case
-        return Env.PRO;
-      case "DEV":
-        return Env.DEV;
-      case "LOCAL":
-        return Env.LOCAL;
-      case "TOOLS":
-        return Env.TOOLS;
-      default:
-        return Env.UNKNOWN;
+    if("LPT".equals(envName.trim().toUpperCase())){
+      return Env.LPT;
     }
+    if("FAT".equals(envName.trim().toUpperCase())||"FWS".equals(envName.trim().toUpperCase())){
+      return Env.FAT;
+    }
+    if("UAT".equals(envName.trim().toUpperCase())){
+      return Env.UAT;
+    }
+    if("PRO".equals(envName.trim().toUpperCase()) ||"PROD".equals(envName.trim().toUpperCase()) ) {
+      return Env.PRO;
+    }
+    if("DEV".equals(envName.trim().toUpperCase())){
+        return Env.DEV;
+    }
+    if("LOCAL".equals(envName.trim().toUpperCase())){
+      return Env.LOCAL;
+    }
+    if("TOOLS".equals(envName.trim().toUpperCase())){
+      return Env.TOOLS;
+    }
+    return Env.UNKNOWN;
   }
 }

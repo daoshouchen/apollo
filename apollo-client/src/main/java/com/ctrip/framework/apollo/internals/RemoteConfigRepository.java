@@ -77,13 +77,13 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
    */
   public RemoteConfigRepository(String namespace) {
     m_namespace = namespace;
-    m_configCache = new AtomicReference<>();
+    m_configCache = new AtomicReference();
     m_configUtil = ApolloInjector.getInstance(ConfigUtil.class);
     m_httpUtil = ApolloInjector.getInstance(HttpUtil.class);
     m_serviceLocator = ApolloInjector.getInstance(ConfigServiceLocator.class);
     remoteConfigLongPollService = ApolloInjector.getInstance(RemoteConfigLongPollService.class);
-    m_longPollServiceDto = new AtomicReference<>();
-    m_remoteMessages = new AtomicReference<>();
+    m_longPollServiceDto = new AtomicReference();
+    m_remoteMessages = new AtomicReference();
     m_loadConfigRateLimiter = RateLimiter.create(m_configUtil.getLoadConfigQPS());
     m_configNeedForceRefresh = new AtomicBoolean(true);
     m_loadConfigFailSchedulePolicy = new ExponentialSchedulePolicy(m_configUtil.getOnErrorRetryInterval(),
@@ -95,9 +95,13 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
   }
 
   @Override
-  public Properties getConfig() {
+  public Properties getConfig()  {
     if (m_configCache.get() == null) {
-      this.sync();
+      try {
+        this.sync();
+      } catch (Throwable throwable) {
+        throwable.printStackTrace();
+      }
     }
     return transformApolloConfigToProperties(m_configCache.get());
   }
@@ -129,7 +133,7 @@ public class RemoteConfigRepository extends AbstractConfigRepository {
   }
 
   @Override
-  protected synchronized void sync() {
+  protected synchronized void sync() throws Throwable {
     Transaction transaction = Tracer.newTransaction("Apollo.ConfigService", "syncRemoteConfig");
 
     try {

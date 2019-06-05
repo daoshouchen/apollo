@@ -9,9 +9,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Objects;
-
 public enum NetworkInterfaceManager {
+
   INSTANCE;
 
   private InetAddress m_local;
@@ -41,11 +40,16 @@ public enum NetworkInterfaceManager {
           weight += 2;
         }
 
+        /**
+         * The following logic is removed as we will sort the network interfaces according to the index asc to determine
+         * the priorities between network interfaces, see https://github.com/ctripcorp/apollo/pull/1986
+         */
         // has host name
-        // TODO fix performance issue when calling getHostName
+        /*
         if (!Objects.equals(address.getHostName(), address.getHostAddress())) {
           weight += 1;
         }
+        */
 
         if (weight > maxWeight) {
           maxWeight = weight;
@@ -98,8 +102,16 @@ public enum NetworkInterfaceManager {
 
     try {
       Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-      List<NetworkInterface> nis = interfaces == null ? Collections.<NetworkInterface>emptyList() : Collections.list(interfaces);
-      List<InetAddress> addresses = new ArrayList<>();
+      List<NetworkInterface> nis = interfaces == null ? Collections.<NetworkInterface>emptyList()
+          : Collections.list(interfaces);
+      //sort the network interfaces according to the index asc
+//      Collections.sort(nis, new Comparator<NetworkInterface>() {
+//        @Override
+//        public int compare(NetworkInterface nis1, NetworkInterface nis2) {
+//          return compareInt(nis1.getIndex(), nis2.getIndex());
+//        }
+//      });
+      List<InetAddress> addresses = new ArrayList();
       InetAddress local = null;
 
       try {
@@ -119,7 +131,11 @@ public enum NetworkInterfaceManager {
     } catch (SocketException e) {
       // ignore it
     }
-
-    m_local = InetAddress.getLoopbackAddress();
+    try {
+      m_local = InetAddress.getLocalHost();
+    } catch (UnknownHostException e) {
+      e.printStackTrace();
+    }
   }
+
 }

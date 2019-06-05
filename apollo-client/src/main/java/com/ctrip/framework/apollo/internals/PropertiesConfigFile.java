@@ -21,7 +21,7 @@ public class PropertiesConfigFile extends AbstractConfigFile {
   public PropertiesConfigFile(String namespace,
                               ConfigRepository configRepository) {
     super(namespace, configRepository);
-    m_contentCache = new AtomicReference<>();
+    m_contentCache = new AtomicReference();
   }
 
   @Override

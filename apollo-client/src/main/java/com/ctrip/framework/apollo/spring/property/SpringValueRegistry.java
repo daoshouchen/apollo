@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.google.common.collect.Multimaps;
 import org.springframework.beans.factory.BeanFactory;
 
 public class SpringValueRegistry {
