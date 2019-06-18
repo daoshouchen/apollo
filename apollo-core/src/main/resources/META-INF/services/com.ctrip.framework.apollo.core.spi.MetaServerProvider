@@ -1,1 +1,1 @@
-com.ctrip.framework.apollo.core.internals.LegacyMetaServerProvider
+com.ctrip.framework.apollo.core.internals.ServyouMetaServerProvider

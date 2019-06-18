@@ -2,7 +2,7 @@ package com.ctrip.framework.foundation.internals.provider;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -39,7 +39,7 @@ public class DefaultApplicationProvider implements ApplicationProvider {
     try {
       if (in != null) {
         try {
-          m_appProperties.load(new InputStreamReader(new BOMInputStream(in), StandardCharsets.UTF_8));
+          m_appProperties.load(new InputStreamReader(new BOMInputStream(in), Charset.forName("UTF-8")));
         } finally {
           in.close();
         }
