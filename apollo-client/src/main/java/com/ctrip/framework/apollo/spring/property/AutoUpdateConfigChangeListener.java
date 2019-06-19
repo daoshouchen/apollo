@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.util.CollectionUtils;
+import com.ctrip.framework.apollo.core.utils.StringUtils;
 
 /**
  * Create by zhangzheng on 2018/3/6
@@ -82,7 +82,7 @@ public class AutoUpdateConfigChangeListener implements ConfigChangeListener{
       return true;
     }
 
-    return Objects.equals(environment.getProperty(changedKey), configChange.getNewValue());
+    return StringUtils.equals(environment.getProperty(changedKey), configChange.getNewValue());
   }
 
   private void updateSpringValue(SpringValue springValue) {

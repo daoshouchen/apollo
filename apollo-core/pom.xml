@@ -9,7 +9,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>apollo-core</artifactId>
-	<version>1.3.0.1</version>
+	<version>1.3.0.1-SNAPSHOT</version>
 	<name>Apollo Core</name>
 	<packaging>jar</packaging>
 	<properties>
